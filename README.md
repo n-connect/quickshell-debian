@@ -34,12 +34,13 @@ Additionaly, you need to install these at least:
 
 `apt install qml6-module-qt-labs-platform qml6-module-qt-labs-folderlistmodel qml6-module-qt-labs-settings qml6-module-qtcore qml6-module-qt5compat-graphicaleffects qml6-module-qtquick-dialogs qml6-module-qtquick-effects fonts-roboto qt6-image-formats-plugins qml6-module-qtmultimedia`
 
-You likely to need this special font set for sure:
+You'll need this special font set for sure (DMS & Noctalia):
 ```
 curl -L "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf" -o ~/.local/share/fonts/MaterialSymbolsRounded.ttf
 fc-cache -f
 ```
-
+Download the tar.gz file pieces, (double compressed bc, GitHub has a 25MB file upload limit), extact the second to have the first:
+``
 Extract the uploaded .tar.gz file as `sudo tar -xvf /path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz -C /`
 Make symlink, if you don't have such one `sudo /usr/local/bin/quickshell /usr/local/bin/qs` 
 

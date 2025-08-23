@@ -17,6 +17,7 @@ cmake --build build
 cmake --install build
 tar -cvf /tmp/quickshell_v0.2.0_nolocal_2nd.tar.gz -T build/install_manifest.txt
 ```
+In case you create it for GitHub upload: `tar -cvf - -T build/install_manifest.txt tar cvzf - dir/ | split -b 24m - /tmp/quickshell-24mb_v0.2.0_nolocal.tar.gz.`
 # Copy over create tar.gz to to target system via:
 `sudo docker cp <docker-id>:/path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz ~/your/path/`
 
@@ -39,9 +40,9 @@ You'll need this special font set for sure (DMS & Noctalia):
 curl -L "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf" -o ~/.local/share/fonts/MaterialSymbolsRounded.ttf
 fc-cache -f
 ```
-Download the tar.gz file pieces, (double compressed bc, GitHub has a 25MB file upload limit), extact the second to have the first:
-``
-Extract the uploaded .tar.gz file as `sudo tar -xvf /path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz -C /`
+Download the tar.gz file pieces, (double compressed bc, GitHub has a 25MB file upload limit), extract the second to have the first: `cat quickshell-24mb_v0.2.0_nolocal.tar.gz.* | tar xvf -`
+
+OR, if you have made your own one big tar.gz, extract the uploaded .tar.gz file as `sudo tar -xvf /path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz -C /`
 Make symlink, if you don't have such one `sudo /usr/local/bin/quickshell /usr/local/bin/qs` 
 
 ## Test you quickshell like this:

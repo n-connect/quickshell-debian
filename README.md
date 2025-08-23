@@ -1,14 +1,16 @@
 # quickshell-debian
 Complete compiled Quickshell for Debian from Bookwork release
 
-# Compilation steps
+## Compilation steps
 
-## Compilation dependencies
-Warmup: the package compiled in a docker already in use for Rust/Go/C++ compilations, so it is sure from zero it needs more packages. The Docker is an official rust docker "FROM rust:1.81-slim-bookworm" since updated to 1.89 internally
+Compilation dependencies
 
-So at least these needed, cmake, c++, ninja, meson, bunch of hyprland and wayland libs/dev packages were already there:
+Warmup: the docker image, this package compiled is already in use for Rust/Go/C++ compilations, so it is sure from new Docker it will need more packages. The Docker is an official rust docker "FROM rust:1.81-slim-bookworm" since, that updated to Rust 1.89 internally.
+
+At least these needed, (cmake, c++, ninja, meson, bunch of hyprland and wayland libs/dev packages were already there):
 `apt install libqt6shadertools6 qt6-shadertools-dev libcli11-dev libjemalloc-dev qt6-base-private-dev qt6-declarative-private-dev`
 
+Quickshell compiled with these:
 ```
 git clone https://github.com/quickshell-mirror/quickshell /tmp/quickshell; cd /tmp/quickshell
 git checkout v0.2.0                             
@@ -17,8 +19,11 @@ cmake --build build
 cmake --install build
 tar -cvf /tmp/quickshell_v0.2.0_nolocal_2nd.tar.gz -T build/install_manifest.txt
 ```
-In case you create it for GitHub upload: `tar -cvf - -T build/install_manifest.txt tar cvzf - dir/ | split -b 24m - /tmp/quickshell-24mb_v0.2.0_nolocal.tar.gz.`
-# Copy over create tar.gz to to target system via:
+In case you create it for GitHub upload:
+```
+tar -cvf - -T build/install_manifest.txt tar cvzf - dir/ | split -b 24m - /tmp/quickshell-24mb_v0.2.0_nolocal.tar.gz.
+```
+Copy over the created tar.gz to to target system via:
 `sudo docker cp <docker-id>:/path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz ~/your/path/`
 
 ## Target system requirements:
@@ -28,10 +33,10 @@ In case you create it for GitHub upload: `tar -cvf - -T build/install_manifest.t
 - free space under your `$XDG_RUNTIME_DIR` mounted as 'tmpfs' usually under '/run/user/1000' if your are the a non-root first created user on your Linux
 - patience for the first crash/seggfault -less run
 
-## Target system dependencies:
+Target system dependencies:
 Again a full Hyprland runs already with QT6 elements, like `hyprpolkitagent`, so QT6 and QT6-Wayland / QT6-wlroot packages were already there.
 Additionaly, you need to install these at least:
-# Quickshell asks for these only: "apt install qt6-image-formats-plugins qml6-module-qtmultimedia qml6-module-qt5compat-graphicaleffects"
+(Quickshell asks for these only: "apt install qt6-image-formats-plugins qml6-module-qtmultimedia qml6-module-qt5compat-graphicaleffects")
 
 `apt install qml6-module-qt-labs-platform qml6-module-qt-labs-folderlistmodel qml6-module-qt-labs-settings qml6-module-qtcore qml6-module-qt5compat-graphicaleffects qml6-module-qtquick-dialogs qml6-module-qtquick-effects fonts-roboto qt6-image-formats-plugins qml6-module-qtmultimedia`
 
@@ -45,7 +50,7 @@ Download the tar.gz file pieces, (double compressed bc, GitHub has a 25MB file u
 OR, if you have made your own one big tar.gz, extract the uploaded .tar.gz file as `sudo tar -xvf /path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz -C /`
 Make symlink, if you don't have such one `sudo /usr/local/bin/quickshell /usr/local/bin/qs` 
 
-## Test you quickshell like this:
+## Test your quickshell like this:
 `quickshell -c ~/path/to/matt/reborn/quickshell/`
 If you like what you've got, copy all the content from the directory recursively, or like use `mc` for it...
 

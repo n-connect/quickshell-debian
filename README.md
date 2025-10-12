@@ -5,7 +5,7 @@ Complete compiled Quickshell for Debian from Bookwork release
 
 Compilation dependencies
 
-Warmup: the docker image, this package compiled is already in use for Rust/Go/C++ compilations, so it is sure from new Docker it will need more packages. The Docker is an official rust docker "FROM rust:1.81-slim-bookworm" since, that updated to Rust 1.89 internally.
+Warmup: the docker image this 'package' compiled from, is already in use for other Rust/Go/C++ compilations, so it is sure from new new Docker you will need some more packages. The Docker is an official rust docker "FROM rust:1.81-slim-bookworm" since, that updated to Rust 1.89+ internally.
 
 At least these needed, (cmake, c++, ninja, meson, bunch of hyprland and wayland libs/dev packages were already there):
 `apt install libqt6shadertools6 qt6-shadertools-dev libcli11-dev libjemalloc-dev qt6-base-private-dev qt6-declarative-private-dev`
@@ -13,18 +13,18 @@ At least these needed, (cmake, c++, ninja, meson, bunch of hyprland and wayland 
 Quickshell compiled with these:
 ```
 git clone https://github.com/quickshell-mirror/quickshell /tmp/quickshell; cd /tmp/quickshell
-git checkout v0.2.0                             
+git checkout v0.2.1
 cmake -GNinja -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCRASH_REPORTER=OFF -DI3=OFF -DI3_IPC=OFF -DINSTALL_QML_PREFIX=/usr/lib/x86_64-linux-gnu/qt6/qml -DINSTALL_QMLDIR=/usr/lib/x86_64-linux-gnu/qt6/qml/org/quickshell -DDISTRIBUTOR="Debian bookworm"
 cmake --build build
 cmake --install build
-tar -cvf /tmp/quickshell_v0.2.0_nolocal_2nd.tar.gz -T build/install_manifest.txt
+tar -czvf /tmp/quickshell_v0.2.1_nolocal_2nd.tar.gz -T build/install_manifest.txt
 ```
 In case you create it for GitHub upload:
 ```
-tar -cvf - -T build/install_manifest.txt tar cvzf - dir/ | split -b 24m - /tmp/quickshell-24mb_v0.2.0_nolocal.tar.gz.
+tar -czvf - -T build/install_manifest.txt tar cvzf - dir/ | split -b 24m - /tmp/quickshell-24mb_v0.2.1_nolocal.tar.gz.
 ```
 Copy over the created tar.gz to to target system via:
-`sudo docker cp <docker-id>:/path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz ~/your/path/`
+`sudo docker cp <docker-id>:/path/to/quickshell_v0.2.1_nolocal_2nd.tar.gz ~/your/path/`
 
 ## Target system requirements:
 - have the same version of QT6, as the compiling Docker
@@ -45,9 +45,9 @@ You'll need this special font set for sure (DMS & Noctalia):
 curl -L "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf" -o ~/.local/share/fonts/MaterialSymbolsRounded.ttf
 fc-cache -f
 ```
-Download the tar.gz file pieces, (double compressed bc, GitHub has a 25MB file upload limit), extract the second to have the first: `cat quickshell-24mb_v0.2.0_nolocal.tar.gz.* | tar xvf -`
+Download the tar.gz file pieces, (double compressed bc, GitHub has a 25MB file upload limit), extract the second to have the first: `cat quickshell-24mb_v0.2.1_nolocal.tar.gz.* | tar xvf -`
 
-OR, if you have made your own one big tar.gz, extract the uploaded .tar.gz file as `sudo tar -xvf /path/to/quickshell_v0.2.0_nolocal_2nd.tar.gz -C /`
+OR, if you have made your own one big tar.gz, extract the uploaded .tar.gz file as `sudo tar -xvf /path/to/quickshell_v0.2.1_nolocal_2nd.tar.gz -C /`
 Make symlink, if you don't have such one `sudo /usr/local/bin/quickshell /usr/local/bin/qs` 
 
 ## Test your quickshell like this:

@@ -8,23 +8,23 @@ Compilation dependencies
 Warmup: the docker image this 'package' compiled from, is already in use for other Rust/Go/C++ compilations, so it is sure from new new Docker you will need some more packages. The Docker is an official rust docker "FROM rust:1.81-slim-bookworm" since, that updated to Rust 1.89+ internally.
 
 At least these needed, (cmake, c++, ninja, meson, bunch of hyprland and wayland libs/dev packages were already there):
-`apt install libqt6shadertools6 qt6-shadertools-dev libcli11-dev libjemalloc-dev qt6-base-private-dev qt6-declarative-private-dev`
+`apt install libqt6shadertools6 qt6-shadertools-dev libcli11-dev libjemalloc-dev qt6-base-private-dev qt6-declarative-private-dev libcpptrace-dev libpolkit-agent-1-dev`
 
 Quickshell compiled with these:
 ```
 git clone https://github.com/quickshell-mirror/quickshell /tmp/quickshell; cd /tmp/quickshell
-git checkout v0.2.1
+git checkout v0.3.0 # or skip this, so you can have v0.3.0 + the commits since its release. While a new release will born
 cmake -GNinja -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCRASH_REPORTER=OFF -DI3=OFF -DI3_IPC=OFF -DINSTALL_QML_PREFIX=/usr/lib/x86_64-linux-gnu/qt6/qml -DINSTALL_QMLDIR=/usr/lib/x86_64-linux-gnu/qt6/qml/org/quickshell -DDISTRIBUTOR="Debian bookworm"
 cmake --build build
 cmake --install build
-tar -czvf /tmp/quickshell_v0.2.1_nolocal_2nd.tar.gz -T build/install_manifest.txt
+tar -czvf /tmp/quickshell_v0.3.0-git.tar.gz -T build/install_manifest.txt
 ```
 In case you create it for GitHub upload:
 ```
-tar -czvf - -T build/install_manifest.txt tar cvzf - dir/ | split -b 24m - /tmp/quickshell-24mb_v0.2.1_nolocal.tar.gz.
+tar -czvf - -T build/install_manifest.txt tar cvzf - dir/ | split -b 24m - /tmp/quickshell-24mb_v0.3.0-git.tar.gz.
 ```
 Copy over the created tar.gz to to target system via:
-`sudo docker cp <docker-id>:/path/to/quickshell_v0.2.1_nolocal_2nd.tar.gz ~/your/path/`
+`sudo docker cp <docker-id>:/path/to/quickshell_v0.3.0-git.tar.gz ~/your/path/`
 
 ## Target system requirements:
 - have the same version of QT6, as the compiling Docker
@@ -38,7 +38,7 @@ Again a full Hyprland runs already with QT6 elements, like `hyprpolkitagent`, so
 Additionaly, you need to install these at least:
 (Quickshell asks for these only: "apt install qt6-image-formats-plugins qml6-module-qtmultimedia qml6-module-qt5compat-graphicaleffects")
 
-`apt install qml6-module-qt-labs-platform qml6-module-qt-labs-folderlistmodel qml6-module-qt-labs-settings qml6-module-qtcore qml6-module-qt5compat-graphicaleffects qml6-module-qtquick-dialogs qml6-module-qtquick-effects fonts-roboto qt6-image-formats-plugins qml6-module-qtmultimedia`
+`apt install qml6-module-qt-labs-platform qml6-module-qt-labs-folderlistmodel qml6-module-qt-labs-settings qml6-module-qtcore qml6-module-qt5compat-graphicaleffects qml6-module-qtquick-dialogs qml6-module-qtquick-effects fonts-roboto qt6-image-formats-plugins qml6-module-qtmultimedia libcpptrace1`
 
 You'll need this special font set for sure (DMS & Noctalia):
 ```
